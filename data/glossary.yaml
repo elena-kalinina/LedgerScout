@@ -1,0 +1,58 @@
+# Business glossary — links retail/compliance terms to dataset schema fields.
+# Collibra-shaped: term -> definition -> mapped_fields
+
+trend_velocity:
+  definition: Rate of change in demand signals over a rolling window (search + resale).
+  mapped_fields:
+    - search_interest_index
+    - yoy_delta
+    - listing_volume_proxy
+
+median_resale_price:
+  definition: Median asking price on second-hand marketplaces for a category/geo slice.
+  mapped_fields:
+    - price_eur
+    - median_price
+
+listing_volume_proxy:
+  definition: Count of active listings in a category search snapshot (demand/supply proxy).
+  mapped_fields:
+    - listing_count
+
+claim_verifiability:
+  definition: Share of marketing claims backed by third-party verifiable evidence.
+  mapped_fields:
+    - evidence_required
+    - status
+    - verifiability
+
+regulatory_risk:
+  definition: Qualitative risk of enforcement under EU Green Claims / national rules.
+  mapped_fields:
+    - jurisdiction
+    - claim_type
+    - gaps
+
+impact_factor:
+  definition: Life-cycle impact per kg material (e.g. kg CO2e/kg cotton).
+  mapped_fields:
+    - impact_category
+    - value
+    - unit
+
+recycled_content_threshold:
+  definition: Minimum recycled content % required to support a specific claim type.
+  mapped_fields:
+    - claim_type
+    - evidence_required
+
+search_interest_index:
+  definition: Normalized search interest (0–100) from trends provider for a query/geo.
+  mapped_fields:
+    - interest_index
+    - week
+
+yoy_delta:
+  definition: Year-over-year percentage change in search interest.
+  mapped_fields:
+    - yoy_delta_pct

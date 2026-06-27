@@ -1,0 +1,8 @@
+# Offline stub mode needs only the stdlib. Optional integrations for hackathon day.
+google-genai          # Gemini (analyst plan, synthesis narrative)
+pytrends              # Google Trends live (LEDGERSCOUT_TRENDS_LIVE=1)
+requests              # Live data sources + Stripe test-helper HTTP calls
+pyyaml                # glossary.yaml loader (optional; stub can use hardcoded)
+stripe                # Issuing virtual card = research budget (LEDGERSCOUT_STRIPE_LIVE=1)
+flask                 # real-time issuing_authorization.request webhook (optional)
+pytest

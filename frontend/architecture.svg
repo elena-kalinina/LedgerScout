@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <style>
+      .title { font: 600 22px Inter, sans-serif; fill: #ECE7F0; }
+      .label { font: 600 13px Inter, sans-serif; fill: #ECE7F0; }
+      .sub { font: 400 11px Inter, sans-serif; fill: #948BA6; }
+      .box { rx: 10; stroke-width: 1.5; }
+      .core { fill: #2B2734; stroke: #8FB3E0; }
+      .roster { fill: #221F2A; stroke: #86C7A6; }
+      .domain { fill: #221F2A; stroke: #E8B15A; }
+      .human { fill: #221F2A; stroke: #E0A3B4; }
+      .arrow { stroke: #948BA6; stroke-width: 1.2; fill: none; marker-end: url(#arr); }
+    </style>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#948BA6"/>
+    </marker>
+  </defs>
+  <rect width="920" height="520" fill="#17151C"/>
+  <text x="40" y="42" class="title">Ledger Scout  Architecture</text>
+  <text x="40" y="64" class="sub">Domain-agnostic coordination core + swappable fashion data-shopping layer</text>
+
+  <!-- Human -->
+  <rect x="40" y="90" width="160" height="70" class="box human"/>
+  <text x="56" y="118" class="label">Human (Merch lead)</text>
+  <text x="56" y="138" class="sub">Approve plan � credits � publish</text>
+
+  <!-- Core -->
+  <rect x="240" y="80" width="280" height="200" class="box core"/>
+  <text x="256" y="108" class="label">Coordination core (from Lupo)</text>
+  <text x="256" y="132" class="sub">Coordinator � Research ledger � Policy</text>
+  <rect x="256" y="148" width="110" height="44" class="box core" style="fill:#39333F;stroke:#8FB3E0"/>
+  <text x="268" y="175" class="sub">PROCEED / ASK / CONFIRM</text>
+  <rect x="378" y="148" width="124" height="44" class="box core" style="fill:#39333F;stroke:#8FB3E0"/>
+  <text x="390" y="168" class="sub">Credit arbitration</text>
+  <text x="390" y="184" class="sub">+ event stream</text>
+  <text x="256" y="228" class="sub">events.jsonl � canvas.html</text>
+
+  <!-- Roster -->
+  <rect x="560" y="80" width="320" height="200" class="box roster"/>
+  <text x="576" y="108" class="label">Agent roster</text>
+  <rect x="576" y="120" width="130" height="36" class="box roster" style="fill:#39333F"/>
+  <text x="588" y="143" class="sub">Analyst (plan)</text>
+  <rect x="718" y="120" width="146" height="36" class="box roster" style="fill:#39333F"/>
+  <text x="730" y="143" class="sub">Scout (shop sources)</text>
+  <rect x="576" y="166" width="130" height="36" class="box roster" style="fill:#39333F"/>
+  <text x="588" y="189" class="sub">Procurement (credits)</text>
+  <rect x="718" y="166" width="146" height="36" class="box roster" style="fill:#39333F"/>
+  <text x="730" y="189" class="sub">Synthesizer (quant brief)</text>
+  <text x="576" y="248" class="sub">Collibra-shaped Catalog registers every dataset</text>
+
+  <!-- Domain -->
+  <rect x="40" y="310" width="840" height="170" class="box domain"/>
+  <text x="56" y="340" class="label">Domain layer  data sources (fixture-first)</text>
+  <rect x="56" y="358" width="180" height="50" class="box domain" style="fill:#39333F"/>
+  <text x="68" y="380" class="sub">Resale cache (Vinted-shaped)</text>
+  <text x="68" y="396" class="sub">trend velocity � price bands</text>
+  <rect x="252" y="358" width="180" height="50" class="box domain" style="fill:#39333F"/>
+  <text x="264" y="380" class="sub">Trends cache (Google Trends)</text>
+  <text x="264" y="396" class="sub">search interest � YoY</text>
+  <rect x="448" y="358" width="200" height="50" class="box domain" style="fill:#39333F"/>
+  <text x="460" y="380" class="sub">Compliance cache (EU claims)</text>
+  <text x="460" y="396" class="sub">certs � LCA factors � gaps</text>
+  <rect x="664" y="358" width="200" height="50" class="box domain" style="fill:#39333F"/>
+  <text x="676" y="380" class="sub">glossary.yaml</text>
+  <text x="676" y="396" class="sub">business terms � schema</text>
+  <text x="56" y="448" class="sub">Live toggles on build day: LEDGERSCOUT_TRENDS_LIVE � LEDGERSCOUT_RESALE_LIVE � USE_REAL_GEMINI</text>
+
+  <!-- Arrows -->
+  <path d="M200 125 L240 125" class="arrow"/>
+  <path d="M520 160 L560 160" class="arrow"/>
+  <path d="M380 280 L380 310" class="arrow"/>
+  <path d="M700 280 L700 310" class="arrow"/>
+  <path d="M146 160 L146 310" class="arrow" style="stroke-dasharray:4 3"/>
+  <text x="152" y="240" class="sub" transform="rotate(-90 152 240)">escalations</text>
+</svg>
