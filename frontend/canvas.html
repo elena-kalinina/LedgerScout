@@ -360,18 +360,35 @@
         datasetsBlock(m) + budgetBlock(m) + utilBlock(m) + answerBlock(m) + tailBlock(m);
     }
 
+    async function fetchEvents(path){
+      const r = await fetch(path);
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const events = (await r.text()).trim().split('\n').filter(Boolean).map(JSON.parse);
+      if(!events.length) throw new Error('empty');
+      return events;
+    }
+
     async function load(scenario, btn){
       document.querySelectorAll('.bar button').forEach(b=>b.classList.remove('active'));
       if(btn) btn.classList.add('active');
       try{
-        const r = await fetch(PATHS[scenario]);
-        const text = await r.text();
-        const events = text.trim().split('\n').filter(Boolean).map(JSON.parse);
-        render(model(events));
+        render(model(await fetchEvents(PATHS[scenario])));
         window.scrollTo({top:0, behavior:'smooth'});
       }catch(e){
+        // The Live tab reads data/events.jsonl, which a live run writes (and which can be
+        // missing on a fresh clone or truncated if a run aborts mid-charge). Fall back to a
+        // committed recording so the demo always shows something.
+        if(scenario==='live'){
+          try{
+            render(model(await fetchEvents(PATHS.knitwear)));
+            document.getElementById('app').insertAdjacentHTML('afterbegin',
+              `<section style="border-color:var(--amber)"><div class="meta">⚠ No live <code>data/events.jsonl</code> yet — showing a recorded run. Do a live run with <code>LEDGERSCOUT_STRIPE_LIVE=1 python3 scripts/run_research.py</code>, then reload this tab.</div></section>`);
+            window.scrollTo({top:0, behavior:'smooth'});
+            return;
+          }catch(_){}
+        }
         document.getElementById('app').innerHTML =
-          `<section><p class="empty">Could not load <code>${PATHS[scenario]}</code>. Serve with <code>cd frontend &amp;&amp; python3 -m http.server 8000</code> then open <code>http://localhost:8000/canvas.html</code>.</p></section>`;
+          `<section><p class="empty">Could not load <code>${PATHS[scenario]}</code>. Serve from the project root: <code>python3 -m http.server 8000</code>, then open <code>http://localhost:8000/frontend/canvas.html</code>.</p></section>`;
       }
     }
     const order = ['knitwear','denim','activewear','live'];
