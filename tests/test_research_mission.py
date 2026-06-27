@@ -34,6 +34,41 @@ def test_denim_reallocates_without_human():
     assert reallocated, "denim should show autonomous slack reallocation"
 
 
+def test_live_key_guard_blocks_real_money():
+    import os
+    from ledger_scout.payments import stripe_payments as sp
+
+    saved_key = os.environ.get("STRIPE_SECRET_KEY")
+    saved_override = os.environ.get(sp.LIVE_KEY_OVERRIDE)
+    try:
+        os.environ["STRIPE_SECRET_KEY"] = "sk_live_demo_should_never_charge"
+        os.environ.pop(sp.LIVE_KEY_OVERRIDE, None)
+        assert sp.is_live_key() is True
+        raised = False
+        try:
+            sp.assert_test_key()
+        except RuntimeError:
+            raised = True
+        assert raised, "a live key must be refused by default"
+        # Explicit override unblocks it.
+        os.environ[sp.LIVE_KEY_OVERRIDE] = "1"
+        sp.assert_test_key()  # must not raise
+        # A test key is always fine.
+        os.environ["STRIPE_SECRET_KEY"] = "sk_test_ok"
+        os.environ.pop(sp.LIVE_KEY_OVERRIDE, None)
+        assert sp.is_live_key() is False
+        sp.assert_test_key()
+    finally:
+        if saved_key is None:
+            os.environ.pop("STRIPE_SECRET_KEY", None)
+        else:
+            os.environ["STRIPE_SECRET_KEY"] = saved_key
+        if saved_override is None:
+            os.environ.pop(sp.LIVE_KEY_OVERRIDE, None)
+        else:
+            os.environ[sp.LIVE_KEY_OVERRIDE] = saved_override
+
+
 def test_activewear_downgrades_on_human_decline():
     ledger, events = research.run(scenario="recycled_activewear")
     lca = ledger.by_name("lca_impact")
@@ -93,5 +128,6 @@ if __name__ == "__main__":
     test_catalog_and_metrics()
     test_utilization_trace_per_dataset()
     test_answer_with_free_only_approximation()
+    test_live_key_guard_blocks_real_money()
     test_activewear_downgrades_on_human_decline()
     print("All research smoke tests passed.")

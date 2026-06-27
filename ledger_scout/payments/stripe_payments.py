@@ -23,6 +23,10 @@ from .. import config
 # Stripe's shared test PaymentMethod — always succeeds in test mode.
 TEST_PAYMENT_METHOD = "pm_card_visa"
 
+# Demo safety: a live secret key would charge real money. Refuse unless explicitly
+# overridden, so a stray sk_live_… in .env can't turn the demo into a real spend.
+LIVE_KEY_OVERRIDE = "LEDGERSCOUT_ALLOW_LIVE_KEY"
+
 
 def euros_to_cents(amount_eur):
     return int(round(float(amount_eur) * 100))
@@ -44,6 +48,24 @@ def _secret_key():
     return os.getenv("STRIPE_SECRET_KEY", "")
 
 
+def is_live_key():
+    """True when the configured secret key is a LIVE key (real money)."""
+    return _secret_key().startswith("sk_live_")
+
+
+def assert_test_key():
+    """Refuse to move real money during a demo unless explicitly overridden.
+
+    Raises if STRIPE_SECRET_KEY is a live key (sk_live_…) and the override env var
+    is not set, so an accidental live key can never trigger a real charge."""
+    if is_live_key() and os.getenv(LIVE_KEY_OVERRIDE) != "1":
+        raise RuntimeError(
+            "Refusing to charge: STRIPE_SECRET_KEY is a LIVE key (sk_live_…), which would "
+            "spend REAL money. Use a test key (sk_test_…) for the demo. If this is "
+            f"intentional, set {LIVE_KEY_OVERRIDE}=1 to override."
+        )
+
+
 def live_enabled():
     """True when we should hit real Stripe (toggle on + a test secret key present)."""
     return config.USE_REAL_STRIPE and _secret_key().startswith("sk_")
@@ -58,6 +80,7 @@ def _stripe():
 
 def charge(amount_eur, label, currency=None):
     """Create and confirm a real (test-mode) PaymentIntent. Returns the PI object."""
+    assert_test_key()
     currency = (currency or config.STRIPE_CURRENCY).lower()
     return _stripe().PaymentIntent.create(
         amount=euros_to_cents(amount_eur),
@@ -150,5 +173,6 @@ class StripePaymentWallet(Wallet):
 def get_wallet(limit_eur):
     """Live Stripe wallet when enabled + key present, else the offline simulator."""
     if live_enabled():
+        assert_test_key()  # fail fast before the run if a live key is configured
         return StripePaymentWallet(limit_eur)
     return SimulatedWallet(limit_eur)
