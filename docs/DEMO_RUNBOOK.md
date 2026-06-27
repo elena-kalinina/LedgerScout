@@ -55,6 +55,78 @@ to the free tier, brief is honest: "GO, claim at risk — do not publish the cla
 
 ---
 
+## Per-scenario narration (~1 min each, plain English)
+
+Use these if you have time to walk through scenarios individually instead of the tight 1:40 story.
+
+### ① Knitwear — *"the agent asks permission to spend"*
+
+> We started with a real buying question: **should we make more recycled-cotton knitwear next autumn in
+> the Benelux — and if we label it "recycled cotton," can we defend that if a regulator asks?**
+>
+> The agents broke that into five things we needed to know — our variables: is there genuine
+> second-hand demand, is search interest rising, how much recycled content do similar garments actually
+> have, what's the real environmental benefit, and is the market big enough with shoppers willing to pay
+> more.
+>
+> The first three we got **for free** — resale listings, Google Trends, an open garment dataset — and
+> they showed demand is real: a trend score of **88 out of 100**. The risky part is the green claim. On
+> free data alone we could only stand behind it about **58%** — legally shaky. So the agent **paid €40**
+> for a proper life-cycle dataset, which lifted the claim to **92% verifiable, low risk**, and **€30**
+> for market data showing **11% growth** and a real price premium.
+>
+> Verdict: **go, and the claim is defensible.** The thing to watch: the agent paid on its own, but when
+> the final purchase would break the budget, it **stopped and asked a human to approve €15 more.**
+
+### ② Sustainable denim — *"the agents negotiate the budget themselves"*
+
+> Same engine, different question: **can we launch a premium sustainable-denim line, around €79–99, in
+> Germany next spring?**
+>
+> Same variables: the environmental evidence to back the "sustainable" label, the market size and price
+> tolerance, plus second-hand demand and search interest as reality checks. The two **free** signals
+> confirmed real pull. The environmental claim and the market sizing are worth paying for, so the agents
+> bought the **life-cycle dataset (€40)** and the **market report (€30)**.
+>
+> The twist here: the life-cycle dataset cost a bit **more than the slice of budget it had been given.**
+> Instead of bothering a human, the agents noticed **unused budget** in the market-data slice, quietly
+> **moved it across**, and stayed within the total — no approval needed.
+>
+> The answer lands the same — strong demand, a **defensible claim at 92%**, a clear price band — but
+> this scenario shows the agents **reallocating money among themselves** to get the job done.
+
+### ③ Recycled activewear — *"the honest one: it won't fake confidence"*
+
+> The third question is deliberately tight on money: **can we claim "recycled polyester" on a new
+> activewear line in France — on a small budget?**
+>
+> The agents wanted solid environmental evidence first, which costs **€40**. But that purchase wouldn't
+> fit the budget, so the agent **stopped and asked the human — and this time the human said no.**
+>
+> Rather than give up or pretend, the agent **fell back to a free, rough life-cycle estimate.** The
+> honest consequence: the claim is only about **58% verifiable — high regulatory risk.** So the answer
+> isn't a clean yes. It's: **"demand is there, go ahead with the product, but do not publish the
+> recycled-polyester claim until you fund proper evidence."** It still spent **€30** on market data,
+> which was affordable.
+>
+> The lesson: the system **never fakes confidence it didn't pay for.** Skip the evidence, and it tells
+> you the claim is at risk.
+
+**One-line thread:** *"In every case we turn a vague business question into a checklist of variables,
+find a real dataset for each, get the cheap signals free, and pay only when free data can't make the
+claim defensible — with a human always in the loop on the money."*
+
+### If asked: "how do you know it's 92% if you didn't buy the data?"
+
+> "The numbers are **representative** — we encode each source's known rigor rather than parsing the
+> licensed file in the demo. ecoinvent is a peer-reviewed, jurisdiction-specific LCA, so it scores high
+> and low-risk; the free literature-average proxy scores low and high-risk. What's **real** is the
+> decision logic and the payment: a peer-reviewed LCA is what makes the claim defensible under the EU
+> Green Claims rules, and that's the gap we pay to close. Swap the encoded score for one parsed from the
+> downloaded dataset and the same code computes it for real."
+
+---
+
 ## Live run (the proof) — streamed step by step in the canvas
 
 This is the Lupo-style step-by-step reveal, but the steps are a **real run** with **real charges**.
