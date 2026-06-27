@@ -7,9 +7,12 @@ EVENT_LOG = Path(__file__).resolve().parent.parent / "data" / "events.jsonl"
 
 
 class EventStream:
-    def __init__(self, path=EVENT_LOG, echo=True):
+    def __init__(self, path=EVENT_LOG, echo=True, on_emit=None):
         self.path = Path(path)
         self.echo = echo
+        # Optional callback invoked synchronously after each event is written — used to
+        # stream a live run to the canvas (and to pace it, step by step).
+        self.on_emit = on_emit
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.write_text("")
         self.seq = 0
@@ -29,6 +32,8 @@ class EventStream:
             f.write(json.dumps(ev) + "\n")
         if self.echo:
             self._print(ev)
+        if self.on_emit:
+            self.on_emit(ev)
         return ev
 
     @staticmethod

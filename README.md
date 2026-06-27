@@ -46,14 +46,20 @@ LEDGERSCOUT_SCENARIO=sustainable_denim python3 scripts/run_research.py
 python3 tests/test_research_mission.py                          # smoke tests
 ```
 
-Open the canvas (serve from the **project root** so it can fetch the event logs in `data/`):
+Open the canvas with the **stream server** (serves the canvas *and* runs missions live):
 
 ```bash
-python3 -m http.server 8000   # then open http://localhost:8000/frontend/canvas.html
+python3 scripts/serve.py        # then open http://localhost:8000/frontend/canvas.html
 ```
 
-> Serve from the repo root, not from `frontend/` — the canvas reads `../data/events_*.jsonl`.
-> Jump straight to a scenario with `?s=knitwear|denim|activewear|live`.
+- The three **recorded** tabs replay golden runs (fully offline).
+- **▶ Run** streams a *live* mission step by step into the canvas — each agent event appears as
+  it happens, and with "real Stripe charges" ticked it creates genuine test-mode PaymentIntents
+  as the payment steps are revealed.
+- Deep links: `?s=knitwear|denim|activewear|live` (recorded) or `?run=knitwear[&live=1]` (auto-run live).
+
+> A plain `python3 -m http.server 8000` (from the repo root) also works for the recorded tabs,
+> but the ▶ Run button needs `scripts/serve.py` (it provides the `/api/run` stream).
 
 ---
 

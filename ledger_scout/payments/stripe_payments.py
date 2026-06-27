@@ -67,8 +67,13 @@ def assert_test_key():
 
 
 def live_enabled():
-    """True when we should hit real Stripe (toggle on + a test secret key present)."""
-    return config.USE_REAL_STRIPE and _secret_key().startswith("sk_")
+    """True when we should hit real Stripe (toggle on + a test secret key present).
+
+    The toggle is read live (not cached at import) so a long-running server can flip it
+    per run; falls back to the import-time config default when the env var is unset."""
+    default = "1" if config.USE_REAL_STRIPE else "0"
+    toggle = os.getenv("LEDGERSCOUT_STRIPE_LIVE", default) == "1"
+    return toggle and _secret_key().startswith("sk_")
 
 
 def _stripe():

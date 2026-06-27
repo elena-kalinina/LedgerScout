@@ -12,10 +12,11 @@ live run that proves the Stripe charges are real. Safety net at the bottom.
    ```bash
    python3 -m ledger_scout.payments.verify_stripe --amount 1
    ```
-3. **Terminal A** running the server (from project root), browser open on the ① Knitwear tab:
+3. **Terminal A** running the **stream server** (from project root), browser open on the ① Knitwear tab:
    ```bash
-   python3 -m http.server 8000   # open http://localhost:8000/frontend/canvas.html
+   python3 scripts/serve.py      # open http://localhost:8000/frontend/canvas.html
    ```
+   (Plain `http.server` works for the recorded tabs, but the ▶ Run button needs `serve.py`.)
 4. Stripe dashboard open in a second browser tab, in **test mode**, Payments view.
 5. Keep `USE_REAL_GEMINI=0` for a fast, deterministic breakdown.
 
@@ -54,23 +55,25 @@ to the free tier, brief is honest: "GO, claim at risk — do not publish the cla
 
 ---
 
-## Live run (the proof)
+## Live run (the proof) — streamed step by step in the canvas
 
-**Terminal B — run the mission with real test-mode charges:**
-```bash
-LEDGERSCOUT_STRIPE_LIVE=1 LEDGERSCOUT_SCENARIO=knitwear python3 scripts/run_research.py
-```
-Writes real PaymentIntents to Stripe and streams to `data/events.jsonl` (~3 seconds).
+This is the Lupo-style step-by-step reveal, but the steps are a **real run** with **real charges**.
 
-**Browser:** click the **"Live run"** tab → the fresh run renders.
+**On the canvas:** pick the scenario in the **▶ Run live** row, keep **real Stripe charges** ticked,
+and click **▶ Run**. A "Running…" panel appears and each agent step streams in live — breakdown →
+shopping → the €40 payment → the human gate → the answer — while the sections below fill in.
+
+> Alternative one-click: open `http://localhost:8000/frontend/canvas.html?run=knitwear&live=1`.
+> CLI equivalent (no canvas streaming): `LEDGERSCOUT_STRIPE_LIVE=1 python3 scripts/run_research.py`.
 
 **Stripe dashboard:** refresh `https://dashboard.stripe.com/test/payments` → two new **succeeded**
 PaymentIntents (€40 ecoinvent, €30 Statista) whose `pi_…` ids **match the ids in the canvas's Governed
 catalog**.
 
-> Talk track during the run: *"Real PaymentIntents, real succeeded charges — the same ids appear in
-> the Stripe dashboard. Test mode, so no real money, but the payment rail is genuinely live. Swap the
-> test key for a live key and a real provider checkout, and the agents are buying data for real."*
+> Talk track during the run: *"These steps are happening right now — and as the payment step lands, a
+> real PaymentIntent is created. Same ids appear in the Stripe dashboard. Test mode, so no real money,
+> but the payment rail is genuinely live. Swap the test key and a real provider checkout, and the
+> agents are buying data for real."*
 
 ---
 

@@ -53,9 +53,9 @@ SCENARIOS = {
 }
 
 
-def run(scenario="knitwear", human=None):
+def run(scenario="knitwear", human=None, on_emit=None):
     cfg = SCENARIOS[scenario]
-    events = EventStream()
+    events = EventStream(on_emit=on_emit)
     human = human or get_channel(cfg["script"])
 
     analyst = Analyst("analyst", events)
