@@ -27,7 +27,9 @@ research datasets, and the payment rail wired to **real Stripe charges**.
 
 ## Architecture
 
-![Ledger Scout architecture](frontend/architecture.svg)
+![Ledger Scout architecture](frontend/architecture.png)
+
+<sub>(Diagram source: [`frontend/architecture.svg`](frontend/architecture.svg) — the PNG is committed because GitHub does not render relative-path SVGs.)</sub>
 
 The **coordination core** is domain-agnostic. The **data marketplace** layer is swappable
 (free/open datasets + premium catalog today; your data marketplace tomorrow). Details:
@@ -44,11 +46,14 @@ LEDGERSCOUT_SCENARIO=sustainable_denim python3 scripts/run_research.py
 python3 tests/test_research_mission.py                          # smoke tests
 ```
 
-Open the canvas (serve locally so it can fetch the event log):
+Open the canvas (serve from the **project root** so it can fetch the event logs in `data/`):
 
 ```bash
-cd frontend && python3 -m http.server 8000   # http://localhost:8000/canvas.html
+python3 -m http.server 8000   # then open http://localhost:8000/frontend/canvas.html
 ```
+
+> Serve from the repo root, not from `frontend/` — the canvas reads `../data/events_*.jsonl`.
+> Jump straight to a scenario with `?s=knitwear|denim|activewear|live`.
 
 ---
 
@@ -79,7 +84,7 @@ test Issuing balance — see [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).)
 
 Together they cover the full arbitration space: **approve more budget**, **reallocate autonomously**, **decline → downgrade**.
 
-Full beats: [`docs/DEMO_SCENARIOS.md`](docs/DEMO_SCENARIOS.md).
+Full beats: [`docs/DEMO_SCENARIOS.md`](docs/DEMO_SCENARIOS.md). 5-minute pitch + live-run script: [`docs/DEMO_RUNBOOK.md`](docs/DEMO_RUNBOOK.md).
 
 ---
 

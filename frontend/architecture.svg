@@ -1,75 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="Inter, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Inter, system-ui, sans-serif">
   <defs>
-    <style>
-      .title { font: 600 22px Inter, sans-serif; fill: #ECE7F0; }
-      .label { font: 600 13px Inter, sans-serif; fill: #ECE7F0; }
-      .sub { font: 400 11px Inter, sans-serif; fill: #948BA6; }
-      .box { rx: 10; stroke-width: 1.5; }
-      .core { fill: #2B2734; stroke: #8FB3E0; }
-      .roster { fill: #221F2A; stroke: #86C7A6; }
-      .domain { fill: #221F2A; stroke: #E8B15A; }
-      .human { fill: #221F2A; stroke: #E0A3B4; }
-      .arrow { stroke: #948BA6; stroke-width: 1.2; fill: none; marker-end: url(#arr); }
-    </style>
-    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
       <path d="M0,0 L6,3 L0,6 Z" fill="#948BA6"/>
     </marker>
   </defs>
-  <rect width="920" height="520" fill="#17151C"/>
-  <text x="40" y="42" class="title">Ledger Scout  Architecture</text>
-  <text x="40" y="64" class="sub">Domain-agnostic coordination core + swappable fashion data-shopping layer</text>
+
+  <rect width="960" height="560" fill="#17151C"/>
+  <text x="40" y="44" font-size="22" font-weight="600" fill="#ECE7F0">Ledger Scout — Architecture</text>
+  <text x="40" y="66" font-size="12" fill="#948BA6">Domain-agnostic coordination core + a swappable fashion data-shopping marketplace, paid with Stripe</text>
 
   <!-- Human -->
-  <rect x="40" y="90" width="160" height="70" class="box human"/>
-  <text x="56" y="118" class="label">Human (Merch lead)</text>
-  <text x="56" y="138" class="sub">Approve plan � credits � publish</text>
+  <rect x="40" y="92" width="184" height="92" rx="10" fill="#221F2A" stroke="#E0A3B4" stroke-width="1.5"/>
+  <text x="56" y="120" font-size="13" font-weight="600" fill="#ECE7F0">Human · Merch lead</text>
+  <text x="56" y="144" font-size="11" fill="#948BA6">Gates: approve plan →</text>
+  <text x="56" y="160" font-size="11" fill="#948BA6">budget split → over-budget</text>
+  <text x="56" y="176" font-size="11" fill="#948BA6">spend → publish</text>
 
   <!-- Core -->
-  <rect x="240" y="80" width="280" height="200" class="box core"/>
-  <text x="256" y="108" class="label">Coordination core (from Lupo)</text>
-  <text x="256" y="132" class="sub">Coordinator � Research ledger � Policy</text>
-  <rect x="256" y="148" width="110" height="44" class="box core" style="fill:#39333F;stroke:#8FB3E0"/>
-  <text x="268" y="175" class="sub">PROCEED / ASK / CONFIRM</text>
-  <rect x="378" y="148" width="124" height="44" class="box core" style="fill:#39333F;stroke:#8FB3E0"/>
-  <text x="390" y="168" class="sub">Credit arbitration</text>
-  <text x="390" y="184" class="sub">+ event stream</text>
-  <text x="256" y="228" class="sub">events.jsonl � canvas.html</text>
+  <rect x="256" y="92" width="336" height="204" rx="10" fill="#2B2734" stroke="#8FB3E0" stroke-width="1.5"/>
+  <text x="272" y="120" font-size="13" font-weight="600" fill="#ECE7F0">Coordination core (from Lupo)</text>
+  <text x="272" y="142" font-size="11" fill="#948BA6">Coordinator · Research ledger (EUR budget)</text>
+  <rect x="272" y="154" width="148" height="48" rx="8" fill="#39333F" stroke="#8FB3E0" stroke-width="1.2"/>
+  <text x="284" y="176" font-size="11" fill="#ECE7F0">Policy</text>
+  <text x="284" y="192" font-size="11" fill="#948BA6">PROCEED / ASK / CONFIRM</text>
+  <rect x="432" y="154" width="148" height="48" rx="8" fill="#39333F" stroke="#8FB3E0" stroke-width="1.2"/>
+  <text x="444" y="176" font-size="11" fill="#ECE7F0">Wallet · Stripe / sim</text>
+  <text x="444" y="192" font-size="11" fill="#948BA6">budget-gated charges</text>
+  <text x="272" y="230" font-size="11" fill="#948BA6">Event stream → events.jsonl</text>
+  <text x="272" y="250" font-size="11" fill="#948BA6">→ canvas.html (live timeline)</text>
+  <text x="272" y="276" font-size="11" fill="#E0A3B4">Human-in-the-loop approval gates</text>
 
   <!-- Roster -->
-  <rect x="560" y="80" width="320" height="200" class="box roster"/>
-  <text x="576" y="108" class="label">Agent roster</text>
-  <rect x="576" y="120" width="130" height="36" class="box roster" style="fill:#39333F"/>
-  <text x="588" y="143" class="sub">Analyst (plan)</text>
-  <rect x="718" y="120" width="146" height="36" class="box roster" style="fill:#39333F"/>
-  <text x="730" y="143" class="sub">Scout (shop sources)</text>
-  <rect x="576" y="166" width="130" height="36" class="box roster" style="fill:#39333F"/>
-  <text x="588" y="189" class="sub">Procurement (credits)</text>
-  <rect x="718" y="166" width="146" height="36" class="box roster" style="fill:#39333F"/>
-  <text x="730" y="189" class="sub">Synthesizer (quant brief)</text>
-  <text x="576" y="248" class="sub">Collibra-shaped Catalog registers every dataset</text>
+  <rect x="624" y="92" width="296" height="204" rx="10" fill="#221F2A" stroke="#86C7A6" stroke-width="1.5"/>
+  <text x="640" y="120" font-size="13" font-weight="600" fill="#ECE7F0">Agent roster</text>
+  <rect x="640" y="130" width="132" height="34" rx="7" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="651" y="152" font-size="11" fill="#ECE7F0">Analyst · breakdown</text>
+  <rect x="782" y="130" width="124" height="34" rx="7" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="793" y="152" font-size="11" fill="#ECE7F0">Scout · shop</text>
+  <rect x="640" y="170" width="132" height="34" rx="7" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="651" y="192" font-size="11" fill="#ECE7F0">Procurement · budget</text>
+  <rect x="782" y="170" width="124" height="34" rx="7" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="793" y="192" font-size="11" fill="#ECE7F0">Coordinator · pay</text>
+  <rect x="640" y="210" width="132" height="34" rx="7" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="651" y="232" font-size="11" fill="#ECE7F0">Synthesizer · answer</text>
+  <rect x="782" y="210" width="124" height="34" rx="7" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="793" y="232" font-size="11" fill="#ECE7F0">Catalog · lineage</text>
+  <text x="640" y="272" font-size="11" fill="#948BA6">Collibra-shaped catalog registers every dataset</text>
 
-  <!-- Domain -->
-  <rect x="40" y="310" width="840" height="170" class="box domain"/>
-  <text x="56" y="340" class="label">Domain layer  data sources (fixture-first)</text>
-  <rect x="56" y="358" width="180" height="50" class="box domain" style="fill:#39333F"/>
-  <text x="68" y="380" class="sub">Resale cache (Vinted-shaped)</text>
-  <text x="68" y="396" class="sub">trend velocity � price bands</text>
-  <rect x="252" y="358" width="180" height="50" class="box domain" style="fill:#39333F"/>
-  <text x="264" y="380" class="sub">Trends cache (Google Trends)</text>
-  <text x="264" y="396" class="sub">search interest � YoY</text>
-  <rect x="448" y="358" width="200" height="50" class="box domain" style="fill:#39333F"/>
-  <text x="460" y="380" class="sub">Compliance cache (EU claims)</text>
-  <text x="460" y="396" class="sub">certs � LCA factors � gaps</text>
-  <rect x="664" y="358" width="200" height="50" class="box domain" style="fill:#39333F"/>
-  <text x="676" y="380" class="sub">glossary.yaml</text>
-  <text x="676" y="396" class="sub">business terms � schema</text>
-  <text x="56" y="448" class="sub">Live toggles on build day: LEDGERSCOUT_TRENDS_LIVE � LEDGERSCOUT_RESALE_LIVE � USE_REAL_GEMINI</text>
+  <!-- Marketplace / domain layer -->
+  <rect x="40" y="324" width="880" height="208" rx="10" fill="#221F2A" stroke="#E8B15A" stroke-width="1.5"/>
+  <text x="56" y="352" font-size="13" font-weight="600" fill="#ECE7F0">Data-shopping marketplace · real sources (fixture-first, live toggles)</text>
+
+  <text x="56" y="378" font-size="11" font-weight="600" fill="#86C7A6">FREE / OPEN — €0</text>
+  <rect x="56" y="386" width="182" height="54" rx="8" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="68" y="408" font-size="11" fill="#ECE7F0">HuggingFace · Zenodo</text>
+  <text x="68" y="425" font-size="11" fill="#948BA6">datasets + metadata</text>
+  <rect x="248" y="386" width="182" height="54" rx="8" fill="#39333F" stroke="#86C7A6" stroke-width="1.1"/>
+  <text x="260" y="408" font-size="11" fill="#ECE7F0">Eurostat · Google Trends</text>
+  <text x="260" y="425" font-size="11" fill="#948BA6">prices · search interest</text>
+
+  <text x="452" y="378" font-size="11" font-weight="600" fill="#E8B15A">PREMIUM — paid via Stripe</text>
+  <rect x="452" y="386" width="208" height="54" rx="8" fill="#39333F" stroke="#E8B15A" stroke-width="1.1"/>
+  <text x="464" y="408" font-size="11" fill="#ECE7F0">ecoinvent · textiles LCA</text>
+  <text x="464" y="425" font-size="11" fill="#948BA6">€40 · defensible claim evidence</text>
+  <rect x="670" y="386" width="208" height="54" rx="8" fill="#39333F" stroke="#E8B15A" stroke-width="1.1"/>
+  <text x="682" y="408" font-size="11" fill="#ECE7F0">Statista · market size</text>
+  <text x="682" y="425" font-size="11" fill="#948BA6">€30 · WTP / price band</text>
+
+  <text x="56" y="466" font-size="11" fill="#948BA6">Every premium need carries a free cheaper_alternative — the downgrade path when the human declines spend.</text>
+  <text x="56" y="486" font-size="11" fill="#948BA6">Answer is computed twice — full data vs free-only — and the gap is the demonstrated value of the spend.</text>
+  <text x="56" y="512" font-size="11" fill="#6FB1D6">Live toggles: LEDGERSCOUT_STRIPE_LIVE · *_EUROSTAT_LIVE · *_HF_LIVE · *_TRENDS_LIVE · USE_REAL_GEMINI</text>
 
   <!-- Arrows -->
-  <path d="M200 125 L240 125" class="arrow"/>
-  <path d="M520 160 L560 160" class="arrow"/>
-  <path d="M380 280 L380 310" class="arrow"/>
-  <path d="M700 280 L700 310" class="arrow"/>
-  <path d="M146 160 L146 310" class="arrow" style="stroke-dasharray:4 3"/>
-  <text x="152" y="240" class="sub" transform="rotate(-90 152 240)">escalations</text>
+  <path d="M224 138 L256 138" stroke="#948BA6" stroke-width="1.2" fill="none" marker-end="url(#arr)"/>
+  <path d="M256 112 L226 112" stroke="#948BA6" stroke-width="1.2" fill="none" marker-end="url(#arr)" stroke-dasharray="4 3"/>
+  <text x="232" y="104" font-size="9.5" fill="#948BA6">approvals / escalations</text>
+  <path d="M592 165 L624 165" stroke="#948BA6" stroke-width="1.2" fill="none" marker-end="url(#arr)"/>
+  <path d="M320 296 L320 324" stroke="#948BA6" stroke-width="1.2" fill="none" marker-end="url(#arr)"/>
+  <path d="M700 296 L700 324" stroke="#948BA6" stroke-width="1.2" fill="none" marker-end="url(#arr)"/>
+  <text x="330" y="316" font-size="9.5" fill="#948BA6">shop &amp; pay</text>
 </svg>
