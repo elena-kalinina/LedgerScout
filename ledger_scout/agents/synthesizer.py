@@ -140,10 +140,10 @@ class Synthesizer(Agent):
 
         if demand_ok and claim_defensible:
             verdict = "GO"
-            headline = "increase the buy and publish the recycled-cotton claim — it's defensible"
+            headline = "increase the buy and publish the sustainability claim — it's defensible"
         elif demand_ok and not claim_defensible:
             verdict = "GO, claim at risk"
-            headline = ("increase the buy on demand, but do NOT publish the recycled-cotton claim "
+            headline = ("increase the buy on demand, but do NOT publish the sustainability claim "
                         "without defensible LCA evidence (high regulatory risk)")
         else:
             verdict = "HOLD"

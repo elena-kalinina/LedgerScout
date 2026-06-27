@@ -34,6 +34,19 @@ def test_denim_reallocates_without_human():
     assert reallocated, "denim should show autonomous slack reallocation"
 
 
+def test_activewear_downgrades_on_human_decline():
+    ledger, events = research.run(scenario="recycled_activewear")
+    lca = ledger.by_name("lca_impact")
+    assert lca.status == "downgraded", "human decline should drop LCA to the free tier"
+    assert lca.paid_eur == 0, "downgraded dataset must not be charged"
+    # The brief must honestly flag the claim as not defensible.
+    ans = next(e for e in _events(events) if e.get("kind") == "answer")["answer"]
+    assert ans["full"]["claim_defensible"] is False
+    assert "at risk" in ans["full"]["verdict"]
+    # Yet it still pays for the market benchmark within the tight budget.
+    assert ledger.spent() > 0 and ledger.spent() <= ledger.total_budget + 1e-6
+
+
 def test_agentic_breakdown_emitted():
     _, events = research.run(scenario="knitwear")
     plans = [e for e in _events(events) if e.get("kind") == "plan"]
@@ -80,4 +93,5 @@ if __name__ == "__main__":
     test_catalog_and_metrics()
     test_utilization_trace_per_dataset()
     test_answer_with_free_only_approximation()
+    test_activewear_downgrades_on_human_decline()
     print("All research smoke tests passed.")

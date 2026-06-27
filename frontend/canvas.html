@@ -6,243 +6,358 @@
   <title>Ledger Scout · Agentic Data Shopping</title>
   <style>
     :root {
-      --ink:#141019; --surface:#1f1a29; --surface2:#272031; --line:#39323f;
+      --ink:#120e18; --surface:#1e1929; --surface2:#272031; --line:#39323f;
       --text:#ECE7F0; --muted:#9a90ad; --mint:#86C7A6; --amber:#E8B15A;
       --violet:#8b7bd8; --rose:#e0789a; --blue:#6fb1d6;
     }
     * { box-sizing:border-box; }
-    body { margin:0; background:var(--ink); color:var(--text);
-      font-family:Inter,system-ui,-apple-system,sans-serif; line-height:1.5; }
-    .wrap { max-width:1080px; margin:0 auto; padding:28px 24px 80px; }
-    h1 { margin:0; font-size:30px; letter-spacing:-.5px; }
+    body { margin:0; background:radial-gradient(1200px 600px at 50% -200px, #221a33 0%, var(--ink) 60%);
+      color:var(--text); font-family:Inter,system-ui,-apple-system,sans-serif; line-height:1.5; }
+    .wrap { max-width:1100px; margin:0 auto; padding:26px 22px 90px; }
+    h1 { margin:0; font-size:26px; letter-spacing:-.5px; }
     .tag { color:var(--violet); font-weight:600; }
-    .sub { color:var(--muted); margin:6px 0 20px; }
-    .bar { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+    .sub { color:var(--muted); margin:5px 0 18px; font-size:14px; }
+    .bar { position:sticky; top:0; z-index:5; display:flex; gap:8px; flex-wrap:wrap;
+      padding:10px 0; margin-bottom:18px;
+      background:linear-gradient(var(--ink), var(--ink) 70%, transparent); }
     button { background:var(--surface2); color:var(--text); border:1px solid var(--line);
-      border-radius:10px; padding:9px 14px; cursor:pointer; font-size:14px; transition:.15s; }
+      border-radius:10px; padding:9px 14px; cursor:pointer; font-size:13.5px; transition:.15s; }
     button:hover { border-color:var(--violet); }
     button.active { background:var(--violet); border-color:var(--violet); color:#fff; }
     section { background:var(--surface); border:1px solid var(--line); border-radius:16px;
-      padding:18px 20px; margin-bottom:18px; }
-    .h { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);
-      margin:0 0 14px; display:flex; align-items:center; gap:8px; }
-    .h .n { background:var(--surface2); border:1px solid var(--line); border-radius:20px;
-      padding:1px 9px; font-size:11px; color:var(--text); }
+      padding:18px 20px; margin-bottom:16px; }
+    .h { font-size:12.5px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);
+      margin:0 0 14px; display:flex; align-items:center; gap:10px; }
+    .h .step { width:24px; height:24px; flex:none; border-radius:7px; background:var(--violet);
+      color:#fff; display:grid; place-items:center; font-size:12px; font-weight:800; letter-spacing:0; }
+    .h .n { margin-left:auto; background:var(--surface2); border:1px solid var(--line);
+      border-radius:20px; padding:2px 10px; font-size:11px; color:var(--text); letter-spacing:0; text-transform:none; }
     .q { font-size:19px; font-weight:600; margin:0; }
+    .pill { font-size:11px; padding:2px 9px; border-radius:20px; font-weight:600; white-space:nowrap; }
+    .pill.free { background:rgba(134,199,166,.16); color:var(--mint); }
+    .pill.premium { background:rgba(232,177,90,.16); color:var(--amber); }
+    .pill.live { background:rgba(111,177,214,.16); color:var(--blue); }
+    .pill.changed { background:rgba(224,120,154,.18); color:var(--rose); }
+    .meta { color:var(--muted); font-size:12px; }
+    code { background:var(--surface2); padding:1px 6px; border-radius:5px; font-size:11.5px; }
+    .empty { color:var(--muted); }
+
+    /* hero */
+    .hero { background:linear-gradient(135deg, #2a2140, #1d1729); border:1px solid #463a5c; }
+    .hero .label { color:var(--violet); font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+    .hero .qq { font-size:22px; font-weight:700; margin:8px 0 16px; max-width:760px; }
+    .verdictrow { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+    .vchip { font-size:15px; font-weight:800; padding:7px 16px; border-radius:30px; }
+    .vchip.go { background:rgba(134,199,166,.18); color:var(--mint); border:1px solid var(--mint); }
+    .vchip.risk { background:rgba(232,177,90,.18); color:var(--amber); border:1px solid var(--amber); }
+    .vchip.hold { background:rgba(224,120,154,.18); color:var(--rose); border:1px solid var(--rose); }
+    .hero .headline { font-size:15px; color:var(--text); max-width:640px; }
+    .kpis { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .kpi { background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:12px;
+      padding:10px 14px; min-width:120px; }
+    .kpi .v { font-size:20px; font-weight:800; }
+    .kpi .k { font-size:11px; color:var(--muted); }
+
+    /* pipeline */
+    .pipe { display:flex; align-items:stretch; gap:0; flex-wrap:wrap; }
+    .stage { flex:1; min-width:120px; background:var(--surface2); border:1px solid var(--line);
+      border-radius:12px; padding:11px 12px; position:relative; }
+    .stage + .stage { margin-left:18px; }
+    .stage + .stage::before { content:'→'; position:absolute; left:-15px; top:50%;
+      transform:translateY(-50%); color:var(--violet); font-weight:700; }
+    .stage .nm { font-weight:700; font-size:13.5px; }
+    .stage .ro { font-size:11.5px; color:var(--muted); }
+    .gate { font-size:11px; color:var(--rose); margin-top:6px; }
+
     /* decomposition */
     .need { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid #2c2733; }
     .need:last-child { border-bottom:none; }
     .need .idx { width:26px; height:26px; flex:none; border-radius:8px; background:var(--violet);
       color:#fff; display:grid; place-items:center; font-size:13px; font-weight:700; }
     .need .name { font-weight:600; }
-    .need .why { color:var(--muted); font-size:14px; }
-    .need .src { color:var(--blue); font-size:12.5px; margin-top:3px; }
-    .pill { font-size:11px; padding:2px 9px; border-radius:20px; font-weight:600; white-space:nowrap; }
-    .pill.free { background:rgba(134,199,166,.16); color:var(--mint); }
-    .pill.premium { background:rgba(232,177,90,.16); color:var(--amber); }
-    .pill.live { background:rgba(111,177,214,.16); color:var(--blue); }
+    .need .why { color:var(--muted); font-size:13.5px; }
+    .need .src { color:var(--blue); font-size:12px; margin-top:3px; }
+    .row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+
     /* dataset cards */
-    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; }
-    .card { background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:14px; }
-    .card.best { border-color:var(--violet); }
-    .card .t { font-weight:600; font-size:14.5px; }
-    .card .p { color:var(--muted); font-size:12.5px; margin:4px 0 10px; }
-    .card .row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
-    .card a { color:var(--blue); font-size:12px; text-decoration:none; }
-    .card a:hover { text-decoration:underline; }
-    .meta { color:var(--muted); font-size:12px; }
+    .grouplbl { font-size:12px; color:var(--muted); margin:4px 0 8px; font-weight:600; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-bottom:14px; }
+    .ds { background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:14px; }
+    .ds.premium { border-color:rgba(232,177,90,.4); }
+    .ds .dt { font-weight:600; font-size:14px; margin:6px 0 2px; }
+    .ds .dp { color:var(--muted); font-size:12px; }
+    .ds .dw { font-size:12.5px; color:var(--blue); margin:8px 0; }
+    .ds a { color:var(--blue); font-size:12px; text-decoration:none; }
+    .ds a:hover { text-decoration:underline; }
+
     /* budget ring + timeline */
-    .budget { display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
-    .ring { --pct:0; width:128px; height:128px; flex:none; border-radius:50%;
-      background:conic-gradient(var(--amber) calc(var(--pct)*1%), var(--surface2) 0);
+    .budget { display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
+    .ring { --pct:0; --raised:0; width:130px; height:130px; flex:none; border-radius:50%;
+      background:conic-gradient(var(--mint) 0 calc(var(--pct)*1%),
+        var(--amber) calc(var(--pct)*1%) calc((var(--pct)+var(--raised))*1%), var(--surface2) 0);
       display:grid; place-items:center; }
-    .ring .inner { width:98px; height:98px; border-radius:50%; background:var(--surface);
+    .ring .inner { width:100px; height:100px; border-radius:50%; background:var(--surface);
       display:grid; place-items:center; text-align:center; }
-    .ring .big { font-size:22px; font-weight:700; }
+    .ring .big { font-size:22px; font-weight:800; }
     .ring .small { font-size:11px; color:var(--muted); }
-    .tl { flex:1; min-width:260px; }
-    .ev { display:flex; gap:10px; padding:7px 0; border-bottom:1px solid #2c2733; font-size:13.5px; }
+    .tl { flex:1; min-width:280px; }
+    .ev { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid #2c2733; font-size:13.5px; }
     .ev:last-child { border-bottom:none; }
     .ev .ic { width:22px; flex:none; text-align:center; }
     .ev.pay { color:var(--mint); } .ev.ask { color:var(--amber); }
     .ev.realloc { color:var(--blue); } .ev.human { color:var(--rose); }
-    .metrics { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+
+    /* data -> answer */
+    .util { display:flex; gap:12px; padding:11px 0; border-bottom:1px solid #2c2733; }
+    .util:last-child { border-bottom:none; }
+    .util .ic { width:26px; flex:none; text-align:center; font-size:15px; }
+    .chain { font-size:12.5px; color:var(--muted); margin-top:3px; }
+    .chain b { color:var(--text); }
+
+    /* answer comparison */
+    .acmp { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media(max-width:640px){ .acmp { grid-template-columns:1fr; } }
+    .acol { background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:15px; }
+    .acol.paid { border-color:var(--mint); }
+    .acol .ttl { font-size:12px; color:var(--muted); display:flex; gap:8px; align-items:center; }
+    .verdict { font-size:19px; font-weight:800; margin:8px 0; }
+    .verdict.go { color:var(--mint); } .verdict.risk { color:var(--amber); } .verdict.hold { color:var(--rose); }
+    .kv { font-size:13px; margin-top:5px; }
+    .conf { height:7px; border-radius:4px; background:var(--surface); margin:8px 0 2px; overflow:hidden; }
+    .conf > i { display:block; height:100%; border-radius:4px; }
+    .vop { margin-top:14px; background:rgba(134,199,166,.07); border:1px solid rgba(134,199,166,.25);
+      border-radius:12px; padding:14px; }
+    .vop .lead { font-weight:700; margin-bottom:8px; }
+
+    /* metrics + catalog */
+    .metrics { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
     .metric { background:var(--surface2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
-    .metric .v { font-size:20px; font-weight:700; }
+    .metric .v { font-size:19px; font-weight:800; }
     .metric .k { font-size:11.5px; color:var(--muted); }
     .metric .l { font-size:10.5px; color:var(--blue); margin-top:3px; }
-    .empty { color:var(--muted); }
-    code { background:var(--surface2); padding:1px 6px; border-radius:5px; font-size:11.5px; }
-    .acmp { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .acol { background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:14px; }
-    .acol.paid { border-color:var(--mint); }
-    .acol .kv { font-size:13px; margin-top:4px; }
-    .verdict { font-size:20px; font-weight:800; margin:6px 0; }
-    .verdict.go { color:var(--mint); } .verdict.risk { color:var(--amber); }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Ledger Scout</h1>
-    <p class="sub"><span class="tag">Agentic data shopping</span> — agents break down a fashion-sustainability question, shop real datasets, and pay for premium data with Stripe.</p>
+    <p class="sub"><span class="tag">Agentic data shopping</span> — agents break a fashion-sustainability question into data needs, shop real datasets, and pay for premium data with Stripe under human oversight.</p>
     <div class="bar">
-      <button data-s="knitwear" class="active" onclick="load('knitwear',this)">Knitwear · human approves spend</button>
-      <button data-s="denim" onclick="load('denim',this)">Sustainable denim · agent reallocates</button>
-      <button data-s="live" onclick="load('live',this)">Live run</button>
+      <button onclick="load('knitwear',this)" class="active">① Knitwear · human approves spend</button>
+      <button onclick="load('denim',this)">② Sustainable denim · agent reallocates</button>
+      <button onclick="load('activewear',this)">③ Recycled activewear · human declines</button>
+      <button onclick="load('live',this)">Live run</button>
     </div>
     <div id="app"><p class="empty">Loading…</p></div>
   </div>
 
   <script>
-    const PATHS = { knitwear:'../data/events_knitwear.jsonl', denim:'../data/events_denim.jsonl', live:'../data/events.jsonl' };
-    const esc = s => (s||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    const PATHS = { knitwear:'../data/events_knitwear.jsonl', denim:'../data/events_denim.jsonl',
+      activewear:'../data/events_activewear.jsonl', live:'../data/events.jsonl' };
+    const esc = s => (s==null?'':String(s)).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    const vclass = v => v==='GO' ? 'go' : (/HOLD/.test(v) ? 'hold' : 'risk');
+    const toneColor = t => t==='go' ? 'var(--mint)' : (t==='hold' ? 'var(--rose)' : 'var(--amber)');
 
     function model(events){
-      const m = { question:'', plan:[], candidates:[], payments:[], timeline:[],
+      const m = { question:'', plan:[], candidates:[], payments:[], timeline:[], gates:0,
         metrics:[], catalog:[], utilization:[], answer:null,
-        limit:0, spent:0, raised:0, live:false, report:null, published:false };
+        limit:0, baseLimit:0, spent:0, raised:0, live:false, published:false };
       for(const e of events){
         if(e.kind==='task') m.question = e.text.replace(/^Mission:\s*'/,'').replace(/'\s*—.*/,'');
         if(e.kind==='plan') m.plan = e.plan||[];
         if(e.kind==='candidates') m.candidates.push({cat:e.category, items:e.candidates||[]});
+        if(e.kind==='human_reply') m.gates++;
         if(e.kind==='payment' && e.payment){ m.payments.push(e.payment); m.spent += e.payment.amount_eur; if(e.payment.live) m.live=true; }
         if(e.kind==='budget'){
-          const mm = e.text.match(/Wallet ready:\s*€(\d+)/); if(mm){ m.limit=+mm[1]; if(/REAL Stripe/.test(e.text)) m.live=true; }
+          const mm = e.text.match(/Wallet ready:\s*€(\d+)/); if(mm){ m.limit=+mm[1]; m.baseLimit=+mm[1]; if(/REAL Stripe/.test(e.text)) m.live=true; }
           const inc = e.text.match(/budget now €(\d+)/); if(inc) m.limit=+inc[1];
           const rz = e.text.match(/approved \+€(\d+)/); if(rz) m.raised+=+rz[1];
           if(/Reallocated/.test(e.text)) m.timeline.push({t:'realloc', ic:'⇄', text:e.text});
           if(/Human approved/.test(e.text)) m.timeline.push({t:'human', ic:'✋', text:e.text});
+          if(/split across/.test(e.text)) m.timeline.push({t:'', ic:'📊', text:e.text});
         }
         if(e.kind==='escalation' && /over the remaining|over budget/.test(e.text)) m.timeline.push({t:'ask', ic:'⚠', text:e.text});
+        if(e.kind==='decision' && /Downgraded/.test(e.text)) m.timeline.push({t:'human', ic:'⬇', text:e.text});
         if(e.kind==='payment') m.timeline.push({t:'pay', ic:'💳', text:e.text});
         if(e.kind==='utilization' && e.utilization) m.utilization.push(e.utilization);
         if(e.kind==='answer' && e.answer) m.answer = e.answer;
         if(e.kind==='metric' && e.metric) m.metrics.push(e.metric);
         if(e.kind==='catalog_register' && e.asset) m.catalog.push(e.asset);
-        if(e.kind==='synthesis') m.report = e.report;
         if(e.kind==='deal') m.published = true;
       }
       return m;
     }
 
-    function render(m){
-      const pct = m.limit ? Math.min(100, Math.round(m.spent/m.limit*100)) : 0;
-      const cards = m.candidates.flatMap(c => c.items).map(it => `
-        <div class="card ${it.best?'best':''}">
-          <div class="t">${esc(it.title)}</div>
-          <div class="p">${esc(it.provider)}</div>
+    function heroBlock(m){
+      const a = m.answer;
+      let v = '';
+      if(a){
+        const f=a.full, vop=a.value_of_paid;
+        const t = vclass(f.verdict);
+        const flip = vop.verdict_changed
+          ? `flipped the verdict (free-only would say “${esc(a.free_only.verdict)}”)`
+          : `raised confidence`;
+        v = `
+          <div class="verdictrow">
+            <span class="vchip ${t}">${esc(f.verdict)}</span>
+            <span class="headline">${esc(f.headline)}</span>
+          </div>
+          <div class="kpis">
+            <div class="kpi"><div class="v">€${vop.spent_eur}</div><div class="k">paid for data, ${flip}</div></div>
+            <div class="kpi"><div class="v">${a.free_only.verifiability==null?'—':Math.round(a.free_only.verifiability*100)+'%'} → ${Math.round(f.verifiability*100)}%</div><div class="k">claim verifiability (free → paid)</div></div>
+            <div class="kpi"><div class="v">+${vop.confidence_delta}</div><div class="k">decision confidence</div></div>
+            <div class="kpi"><div class="v">${m.gates}</div><div class="k">human approval gates</div></div>
+          </div>`;
+      }
+      return `<section class="hero">
+        <div class="label">Fashion sustainability research</div>
+        <div class="qq">${esc(m.question)}</div>
+        ${v || '<p class="meta">Running…</p>'}
+      </section>`;
+    }
+
+    function pipelineBlock(m){
+      const stages = [
+        ['Analyst','breaks down the question'],
+        ['Scout','shops real datasets'],
+        ['Procurement','splits the EUR budget'],
+        ['Coordinator','pays &amp; negotiates'],
+        ['Synthesizer','answers + lineage'],
+      ];
+      const gate = {Analyst:'✋ approve plan', Procurement:'✋ approve split', Coordinator:'✋ approve spend', Synthesizer:'✋ publish'};
+      return `<section>
+        <div class="h"><span class="step">◆</span> The agent org <span class="n">${m.gates} human gates</span></div>
+        <div class="pipe">${stages.map(([nm,ro])=>`
+          <div class="stage"><div class="nm">${nm}</div><div class="ro">${ro}</div>
+            ${gate[nm]?`<div class="gate">${gate[nm]}</div>`:''}</div>`).join('')}
+        </div>
+      </section>`;
+    }
+
+    function datasetsBlock(m){
+      const planBy = Object.fromEntries(m.plan.map(p=>[p.need,p]));
+      const best = m.candidates.map(c => (c.items.find(i=>i.best) || c.items[0]) ).filter(Boolean);
+      const card = it => `
+        <div class="ds ${it.tier}">
           <div class="row">
             <span class="pill ${it.tier}">${it.tier==='premium'?('€'+it.price_eur+' · premium'):'free'}</span>
-            <span class="meta">Q ${Math.round((it.quality_score||0)*100)}% · ${it.freshness_days}d ${it.live?'· <span class=\"pill live\">live</span>':''}</span>
+            <span class="meta">Q ${Math.round((it.quality_score||0)*100)}% · ${it.freshness_days}d${it.live?' · <span class="pill live">live</span>':''}</span>
           </div>
-          <div class="row" style="margin-top:8px">
-            <a href="${esc(it.url)}" target="_blank">source ↗</a>
-            <span class="meta">${esc(it.license).slice(0,28)}</span>
-          </div>
-        </div>`).join('');
+          <div class="dt">${esc(it.title)}</div>
+          <div class="dp">${esc(it.provider)}</div>
+          ${planBy[it._need]?`<div class="dw">↳ ${esc(planBy[it._need].rationale)}</div>`:''}
+          <div class="row"><a href="${esc(it.url)}" target="_blank">source ↗</a>
+            <span class="meta">${esc((it.license||'').slice(0,30))}</span></div>
+        </div>`;
+      // attach need name to each best item
+      m.candidates.forEach(c => { const b=c.items.find(i=>i.best)||c.items[0]; if(b) b._need=c.cat; });
+      const free = best.filter(b=>b.tier!=='premium');
+      const paid = best.filter(b=>b.tier==='premium');
+      return `<section>
+        <div class="h"><span class="step">02</span> Datasets shopped <span class="n">${free.length} free · ${paid.length} paid</span></div>
+        <div class="grouplbl">Free / open — €0</div>
+        <div class="cards">${free.map(card).join('')||'<p class="empty">—</p>'}</div>
+        <div class="grouplbl">Premium — paid with Stripe</div>
+        <div class="cards">${paid.map(card).join('')||'<p class="empty">—</p>'}</div>
+      </section>`;
+    }
 
-      const plan = m.plan.map((p,i)=>`
-        <div class="need">
-          <div class="idx">${i+1}</div>
-          <div style="flex:1">
-            <div class="row"><span class="name">${esc(p.need)}</span>
-              <span class="pill ${p.tier}">${p.tier==='premium'?('€'+p.price_eur):'free'}</span></div>
-            <div class="why">${esc(p.rationale)}</div>
-            <div class="src">→ ${esc(p.source)}</div>
-          </div>
-        </div>`).join('');
-
+    function budgetBlock(m){
+      const pct = m.limit ? Math.round(m.spent/Math.max(m.limit,1)*100) : 0;
+      const basePct = m.limit ? Math.round(Math.min(m.spent,m.baseLimit)/m.limit*100) : 0;
+      const raisedPct = Math.max(0, pct - basePct);
       const tl = m.timeline.map(e=>`<div class="ev ${e.t}"><span class="ic">${e.ic}</span><span>${esc(e.text)}</span></div>`).join('')
         || '<p class="empty">No budget events.</p>';
+      return `<section>
+        <div class="h"><span class="step">03</span> Pay &amp; negotiate <span class="n">${m.live?'REAL Stripe charges':'offline simulator'}</span></div>
+        <div class="budget">
+          <div class="ring" style="--pct:${basePct}; --raised:${raisedPct}">
+            <div class="inner"><div><div class="big">€${m.spent}</div>
+              <div class="small">of €${m.limit}${m.raised?` <span style="color:var(--amber)">(+€${m.raised})</span>`:''}</div></div></div>
+          </div>
+          <div class="tl">
+            <div class="meta" style="margin-bottom:8px">${m.payments.length} premium dataset(s) paid${m.raised?` · human approved +€${m.raised}`:''}${m.timeline.some(e=>e.t==='realloc')?' · agent reallocated slack':''}</div>
+            ${tl}
+          </div>
+        </div>
+      </section>`;
+    }
 
+    function utilBlock(m){
+      const rows = m.utilization.map(u=>`
+        <div class="util"><span class="ic">${u.paid_eur>0?'💳':'🟢'}</span>
+          <div><div><b>${esc(u.dataset)}</b> <span class="pill ${u.tier}">${u.paid_eur>0?('€'+u.paid_eur):'free'}</span></div>
+          <div class="chain">provides <code>${(u.provides||[]).map(esc).join('</code> <code>')||'aggregates'}</code>
+            → feeds <b>${esc(u.feeds)}</b></div>
+          <div class="chain">↳ answers: ${esc(u.answers)}</div></div></div>`).join('')
+        || '<p class="empty">No utilization trace.</p>';
+      return `<section>
+        <div class="h"><span class="step">04</span> From data → answer <span class="n">how each purchase is used</span></div>
+        ${rows}
+      </section>`;
+    }
+
+    function answerBlock(m){
+      if(!m.answer) return `<section><div class="h"><span class="step">05</span> The answer</div><p class="empty">No answer yet.</p></section>`;
+      const f=m.answer.full, z=m.answer.free_only, v=m.answer.value_of_paid;
+      const col = (title,d,paid)=>{
+        const t=vclass(d.verdict);
+        const live = (d.live_sources&&d.live_sources.length);
+        return `<div class="acol ${paid?'paid':''}">
+          <div class="ttl">${title} ${live?'<span class="pill live">live data</span>':''}</div>
+          <div class="verdict ${t}">${esc(d.verdict)}</div>
+          <div class="conf"><i style="width:${Math.round(d.confidence*100)}%; background:${toneColor(t)}"></i></div>
+          <div class="meta">confidence ${d.confidence}</div>
+          <div class="kv">claim <b>${d.verifiability==null?'—':Math.round(d.verifiability*100)+'%'}</b> verifiable · risk <b>${esc(d.risk)}</b></div>
+          <div class="kv">WTP premium <b>${d.wtp==null?'—':('+'+d.wtp+'%')}</b></div>
+          ${live?`<div class="kv meta">↳ ${d.live_sources.map(esc).join(', ')}</div>`:''}
+        </div>`;
+      };
+      return `<section>
+        <div class="h"><span class="step">05</span> The answer <span class="n">paid vs free-only</span></div>
+        <p class="q" style="margin-bottom:14px">${esc(f.headline)}</p>
+        <div class="acmp">
+          ${col('With everything we bought · €'+v.spent_eur, f, true)}
+          ${col('Free data only', z, false)}
+        </div>
+        <div class="vop">
+          <div class="lead">What the €${v.spent_eur} unlocked
+            ${v.verdict_changed?'<span class="pill changed">changed the verdict</span>':''}
+            <span class="pill live">confidence +${v.confidence_delta}</span></div>
+          ${v.unlocks.map(u=>`<div class="ev"><span class="ic">✓</span><span>${esc(u)}</span></div>`).join('')||'<p class="empty">—</p>'}
+        </div>
+      </section>`;
+    }
+
+    function tailBlock(m){
       const metrics = m.metrics.filter(x=>x.value!==null).map(x=>`
         <div class="metric"><div class="v">${esc(String(x.value))}</div>
           <div class="k">${esc(x.name)} <span class="meta">(${esc(x.unit)})</span></div>
           <div class="l">← ${esc(x.sources)}</div></div>`).join('');
-
-      const util = m.utilization.map(u=>`
-        <div class="ev"><span class="ic">${u.paid_eur>0?'💳':'·'}</span>
-          <span><b>${esc(u.dataset)}</b> <span class="pill ${u.tier}">${u.paid_eur>0?('€'+u.paid_eur):'free'}</span><br>
-          <span class="meta">gives <code>${u.provides.map(esc).join('</code> <code>')||'aggregates'}</code>
-          → feeds <b>${esc(u.feeds)}</b><br>↳ answers: ${esc(u.answers)}</span></span></div>`).join('')
-        || '<p class="empty">No utilization trace.</p>';
-
-      let answerHtml = '<p class="empty">No answer yet.</p>';
-      if(m.answer){
-        const f=m.answer.full, z=m.answer.free_only, v=m.answer.value_of_paid;
-        const vc = x => x==='GO'?'go':(/risk|HOLD/.test(x)?'risk':'go');
-        const col = (title,d,tone)=>`
-          <div class="acol ${tone}">
-            <div class="meta">${title} ${(d.live_sources&&d.live_sources.length)?'<span class="pill live">live data</span>':''}</div>
-            <div class="verdict ${vc(d.verdict)}">${esc(d.verdict)}</div>
-            <div class="meta">confidence ${d.confidence}</div>
-            <div class="kv">claim <b>${d.verifiability==null?'—':Math.round(d.verifiability*100)+'%'}</b>
-              · risk <b>${esc(d.risk)}</b></div>
-            <div class="kv">WTP premium <b>${d.wtp==null?'—':('+'+d.wtp+'%')}</b></div>
-            ${(d.live_sources&&d.live_sources.length)?`<div class="kv meta">↳ ${d.live_sources.map(esc).join(', ')}</div>`:''}
-          </div>`;
-        answerHtml = `
-          <p class="q" style="margin-bottom:14px">${esc(f.headline)}</p>
-          <div class="acmp">
-            ${col('With paid data · €'+v.spent_eur, f, 'paid')}
-            ${col('Free data only', z, 'free')}
-          </div>
-          <div class="vop">
-            <div class="meta" style="margin:14px 0 8px">What the €${v.spent_eur} unlocked
-              ${v.verdict_changed?'<span class="pill premium">changed the verdict</span>':''}
-              <span class="pill live">confidence +${v.confidence_delta}</span></div>
-            ${v.unlocks.map(u=>`<div class="ev"><span class="ic">✓</span><span>${esc(u)}</span></div>`).join('')||'<p class="empty">—</p>'}
-          </div>`;
-      }
-
       const catalog = m.catalog.map(a=>`
         <div class="ev"><span class="ic">📚</span><span>${esc(a.name)} —
           <span class="meta">${esc(a.provider)} · Q ${Math.round(a.quality_score*100)}% · ${esc(a.tier)} ·
           ${a.payment_id?('paid <code>'+esc(a.payment_id)+'</code>'):'free'}</span></span></div>`).join('');
-
-      const paidCount = m.payments.length;
-      document.getElementById('app').innerHTML = `
-        <section>
-          <div class="h">The question</div>
-          <p class="q">${esc(m.question)}</p>
+      return `<section>
+          <div class="h"><span class="step">06</span> Quantitative brief ${m.published?'<span class="n">published ✓</span>':''}</div>
+          <div class="metrics">${metrics||'<p class="empty">No metrics.</p>'}</div>
         </section>
         <section>
-          <div class="h">Agentic breakdown <span class="n">${m.plan.length} data needs</span></div>
-          ${plan || '<p class="empty">No plan.</p>'}
-        </section>
-        <section>
-          <div class="h">Datasets shopped <span class="n">real sources</span></div>
-          <div class="cards">${cards}</div>
-        </section>
-        <section>
-          <div class="h">Budget &amp; payments <span class="n">${m.live?'REAL Stripe':'simulator'}</span></div>
-          <div class="budget">
-            <div class="ring" style="--pct:${pct}">
-              <div class="inner"><div><div class="big">€${m.spent}</div>
-                <div class="small">of €${m.limit}${m.raised?(' (+€'+m.raised+')'):''}</div></div></div>
-            </div>
-            <div class="tl">
-              <div class="meta" style="margin-bottom:8px">${paidCount} premium dataset(s) paid via Stripe${m.raised?` · human approved +€${m.raised}`:''}</div>
-              ${tl}
-            </div>
-          </div>
-        </section>
-        <section>
-          <div class="h">From data → answer <span class="n">how each dataset is used</span></div>
-          ${util}
-        </section>
-        <section>
-          <div class="h">The answer <span class="n">paid vs free-only</span></div>
-          ${answerHtml}
-        </section>
-        <section>
-          <div class="h">Quantitative brief ${m.published?'<span class="n">published ✓</span>':''}</div>
-          <div class="metrics">${metrics || '<p class="empty">No metrics.</p>'}</div>
-        </section>
-        <section>
-          <div class="h">Governed catalog <span class="n">${m.catalog.length} assets</span></div>
-          ${catalog || '<p class="empty">No assets.</p>'}
+          <div class="h"><span class="step">07</span> Governed catalog <span class="n">${m.catalog.length} assets · lineage</span></div>
+          ${catalog||'<p class="empty">No assets.</p>'}
         </section>`;
+    }
+
+    function render(m){
+      document.getElementById('app').innerHTML =
+        heroBlock(m) + pipelineBlock(m) +
+        `<section>
+          <div class="h"><span class="step">01</span> Agentic breakdown <span class="n">${m.plan.length} data needs</span></div>
+          ${m.plan.map((p,i)=>`<div class="need"><div class="idx">${i+1}</div>
+            <div style="flex:1"><div class="row"><span class="name">${esc(p.need)}</span>
+              <span class="pill ${p.tier}">${p.tier==='premium'?('€'+p.price_eur):'free'}</span></div>
+              <div class="why">${esc(p.rationale)}</div><div class="src">→ ${esc(p.source)}</div></div></div>`).join('') || '<p class="empty">No plan.</p>'}
+        </section>` +
+        datasetsBlock(m) + budgetBlock(m) + utilBlock(m) + answerBlock(m) + tailBlock(m);
     }
 
     async function load(scenario, btn){
@@ -253,12 +368,16 @@
         const text = await r.text();
         const events = text.trim().split('\n').filter(Boolean).map(JSON.parse);
         render(model(events));
+        window.scrollTo({top:0, behavior:'smooth'});
       }catch(e){
         document.getElementById('app').innerHTML =
           `<section><p class="empty">Could not load <code>${PATHS[scenario]}</code>. Serve with <code>cd frontend &amp;&amp; python3 -m http.server 8000</code> then open <code>http://localhost:8000/canvas.html</code>.</p></section>`;
       }
     }
-    load('knitwear', document.querySelector('.bar button'));
+    const order = ['knitwear','denim','activewear','live'];
+    const start = new URLSearchParams(location.search).get('s');
+    const idx = Math.max(0, order.indexOf(start));
+    load(order[idx] || 'knitwear', document.querySelectorAll('.bar button')[idx] || document.querySelector('.bar button'));
   </script>
 </body>
 </html>

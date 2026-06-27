@@ -36,6 +36,20 @@ SCENARIOS = {
             ("Publish research brief", "confirm"),
         ],
     },
+    "recycled_activewear": {
+        "brief": "Can we claim 'recycled polyester' for SS27 activewear in France on a tight budget?",
+        "budget": 35.0,
+        "market": "France",
+        # Tight budget: the agent asks to buy €40 LCA evidence, the human DECLINES and
+        # tells it to drop to the free tier. The brief then honestly downgrades the
+        # claim to "at risk" — but the €30 market benchmark is still bought.
+        "script": [
+            ("research plan", "amend: prioritize claim evidence"),
+            ("budget split", "approve"),
+            ("over budget", "cheaper"),
+            ("Publish research brief", "confirm"),
+        ],
+    },
 }
 
 

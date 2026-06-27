@@ -34,6 +34,16 @@ PLANS = {
         ("search_interest", "Is search interest for sustainable denim rising in Germany for SS27?",
          ["denim", "sustainable", "germany"]),
     ],
+    "recycled_activewear": [
+        ("lca_impact", "A 'recycled polyester' activewear claim must be defensible — get peer-reviewed LCA evidence first.",
+         ["lca", "polyester", "recycled", "claim"]),
+        ("search_interest", "Is search interest in recycled activewear rising in France?",
+         ["activewear", "recycled", "france"]),
+        ("resale_demand", "Is there resale/circular demand for activewear (real pull, not hype)?",
+         ["activewear", "secondhand"]),
+        ("market_benchmark", "What price band supports recycled activewear in France?",
+         ["market", "activewear", "france", "price"]),
+    ],
 }
 
 

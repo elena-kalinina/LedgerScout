@@ -75,6 +75,9 @@ test Issuing balance — see [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).)
 |----------|----------|------------------------|
 | `knitwear` | Recycled-cotton knitwear AW26 in Benelux + defend the "recycled cotton" claim | Pays for LCA evidence autonomously, then **asks the human to approve a budget increase** for the market benchmark |
 | `sustainable_denim` | €79–99 sustainable denim in Germany SS27 | LCA over-runs its slice → agents **reallocate slack autonomously** (no human) and stay in budget |
+| `recycled_activewear` | "Recycled polyester" activewear in France on a tight €35 budget | Human **declines the spend** → agent **downgrades to the free tier**; brief honestly flags the claim as "at risk" |
+
+Together they cover the full arbitration space: **approve more budget**, **reallocate autonomously**, **decline → downgrade**.
 
 Full beats: [`docs/DEMO_SCENARIOS.md`](docs/DEMO_SCENARIOS.md).
 

@@ -90,12 +90,11 @@ class Coordinator:
             self._pay(ledger, need, price)
             return
 
-        # Over the TOTAL budget — escalate the arbitration to the human.
+        # Over the TOTAL budget — the budget is a hard cap, so escalate to the human.
         needed = round(price - available, 2)
-        _, why = policy.decide("overspend", within_budget=False, overspend=needed)
         ev.emit("escalation", "coordinator",
                 text=f"{need.name} '{best['title']}' costs €{price:.0f} — €{needed:.0f} over "
-                     f"the remaining €{available:.0f}. Premium evidence or a free fallback? ({why})")
+                     f"the remaining €{available:.0f}. Approve more budget, or drop to the free tier?")
         reply = self.human.ask(
             f"'{best['title']}' is €{price:.0f}, €{needed:.0f} over budget. "
             f"Approve a budget increase, or drop to the free tier?",

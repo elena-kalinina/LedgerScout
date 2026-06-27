@@ -102,13 +102,62 @@ LEDGERSCOUT_SCENARIO=sustainable_denim python3 scripts/run_research.py
 
 ---
 
+## Scenario C — Recycled activewear (~60 sec) · *human declines, graceful downgrade*
+
+**Brief:**  
+*Can we claim "recycled polyester" for SS27 activewear in France on a tight budget?*
+
+| Setting | Value |
+|---------|--------|
+| Scenario key | `recycled_activewear` |
+| Market | France |
+| Budget | €35 (deliberately tight) |
+| Human script | prioritize claim evidence → approve split → **cheaper** (decline the €40 LCA) → confirm |
+
+### Why this scenario exists
+
+The third negotiation move: the agent asks to buy the €40 LCA evidence, but it **exceeds the tight
+budget**, so it escalates — and the human **declines the spend**. The agent **gracefully downgrades**
+to the free Open-LCA proxy, and the brief is **honest about the cost**: claim verifiability drops to
+58% (high regulatory risk), so the verdict is **"GO, claim at risk — do NOT publish the claim."** It
+still pays €30 for the market benchmark within budget. Demonstrates that the system won't fabricate
+confidence it didn't pay for.
+
+Together the three scenarios cover the full arbitration space: **approve more budget** (knitwear),
+**reallocate autonomously** (denim), **decline → downgrade** (activewear).
+
+```bash
+LEDGERSCOUT_SCENARIO=recycled_activewear python3 scripts/run_research.py
+```
+
+---
+
 ## Demo script (narration)
 
-1. *"Merch teams don't need another chatbot. They need agents that shop for data within a real budget — and governance that makes the answer audit-ready."*
-2. Run knitwear; point at the **breakdown**: *"to answer this we need resale demand, search interest, material composition, LCA evidence, market benchmark."*
-3. *"Watch the org pay €40 to ecoinvent on its own — then hit the budget wall and ask the human to approve €15 more before buying Statista."* (Show the real charge in the Stripe dashboard.)
-4. Show catalog events (with payment ids) + metrics + lineage.
-5. *"Run denim — same engine, but here the agents reallocate budget between datasets autonomously. Swap our marketplace for yours; the coordination layer stays."*
+The canvas is built to be read top-to-bottom as a 6-act story. Talk to the sections.
+
+**Cold open (10s)** — *"One merchandising question. Instead of a chatbot guessing, watch a team of
+agents shop real data — including paid datasets — and pay for it with Stripe, with a human holding
+the purse strings."* Point at the **hero**: GO verdict, and the headline number — *"€70 of paid data
+flipped the answer from 'claim at risk' to a defensible GO."*
+
+1. **The agent org** — five agents, four human gates. *"This is an org, not a prompt."*
+2. **① Breakdown** — *"The Analyst decomposes the question: to answer it we need resale demand,
+   search interest, material composition, LCA evidence, and a market benchmark — three free, two paid."*
+3. **② Datasets shopped** — *"It shops real sources: HuggingFace, Eurostat, Zenodo, Google Trends for
+   free; ecoinvent and Statista for money."*
+4. **③ Pay & negotiate** (the peak) — *"It pays €40 to ecoinvent on its own. Then Statista would blow
+   the €55 budget, so it stops and asks the human to approve €15 more."* Show the **real charge in the
+   Stripe dashboard.** *"On the denim run, it instead reallocates budget between datasets — no human
+   needed."*
+5. **④ From data → answer** — *"Every purchase is accounted for: what fields it bought, which metric it
+   feeds, which sub-question it answers. No black box."*
+6. **⑤ The answer** — *"Here's the honest part: with free data alone, the recycled-cotton claim is only
+   58% verifiable — high regulatory risk. The €40 ecoinvent buy is what makes it 92% and defensible.
+   That gap is the ROI of the spend."*
+
+**Close** — *"Agentic data shopping with real payments — and a governed catalog with lineage that makes
+every number audit-ready. Swap our marketplace for yours; the coordination layer stays."*
 
 ---
 
